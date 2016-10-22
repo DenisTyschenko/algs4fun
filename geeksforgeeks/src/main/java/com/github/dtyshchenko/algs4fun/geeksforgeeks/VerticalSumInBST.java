@@ -39,15 +39,6 @@ public class VerticalSumInBST {
     // 2. predict the number of elements - amount of unique horizontal indexes
     private final Map<Integer, Integer> verticalSums = new HashMap<>();
 
-    public static void main(String[] args) {
-        System.out.println("Vertical sums: " + verticalSumOfBST(new int[]{0, 1, 2, 3, 4, 5, 6}));
-        System.out.println("Vertical sums: " + verticalSumOfBST(new int[]{0, 1, 2}));
-        System.out.println("Vertical sums: " + verticalSumOfBST(new int[]{0}));
-        System.out.println("Vertical sums: " + verticalSumOfBST(new int[]{1, 1, 2, 3, 4}));
-        //nodes with one sibling are not handled
-//      System.out.println("Vertical sums: " + verticalSumOfBST(new int[]{0, 1, 2, 3, 4, 5}));
-    }
-
     /**
      * may return mixed up values with regards to ordering
      * no guarantee that the left most vertical sum is the first and the right most is the last in array

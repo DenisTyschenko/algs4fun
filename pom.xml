@@ -18,19 +18,32 @@
         <junit.version>4.12</junit.version>
         <powermock.version>1.6.4</powermock.version>
         <guava.version>19.0</guava.version>
+        <junit.params.version>1.0.5</junit.params.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--Using for short Collection builder notation while creating test data-->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!--
+                specified as alternative to junit prameterized tests on junit4 github repo wiki
+                https://github.com/junit-team/junit4/wiki/parameterized-tests
+            -->
+            <dependency>
+                <groupId>pl.pragmatists</groupId>
+                <artifactId>JUnitParams</artifactId>
+                <version>${junit.params.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
