@@ -5,6 +5,8 @@ Repository to store solutions while preparing myself for coding interview
 
   * http://www.geeksforgeeks.org/amazon-interview-experience-set-314-for-fte/
    * http://www.geeksforgeeks.org/maximum-of-all-subarrays-of-size-k/
+  * http://www.geeksforgeeks.org/amazon-interview-experience-set-313-for-sde-ii/
+   * https://www.hackerrank.com/challenges/connected-cell-in-a-grid
   * http://www.geeksforgeeks.org/vertical-sum-in-a-given-binary-tree/
   * http://www.geeksforgeeks.org/find-number-of-islands/
   
