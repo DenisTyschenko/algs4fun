@@ -23,6 +23,9 @@ import static java.util.Comparator.reverseOrder;
  * The second line contains an integer, , denoting the number of columns in the matrix.
  * Each line of the subsequent lines contains space-separated integers describing the respective values filling each row in the matrix.
  *
+ * <h3>See related tasks</h3>
+ * <a href="http://www.geeksforgeeks.org/find-number-of-islands/">Find the number of islands</a>
+ *
  * @author denis on 10/22/16.
  */
 public class NumberOfCellsInLargestRegion {
