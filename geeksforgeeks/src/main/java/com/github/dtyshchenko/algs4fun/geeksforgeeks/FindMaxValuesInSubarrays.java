@@ -26,7 +26,8 @@ import static java.util.Objects.requireNonNull;
  * <p>
  * Three solutions with different complexities. The best one is O(n)
  * <p>
- * Created by denis on 10/20/16.
+ *
+ * @author denis on 10/20/16.
  */
 public class FindMaxValuesInSubarrays {
 

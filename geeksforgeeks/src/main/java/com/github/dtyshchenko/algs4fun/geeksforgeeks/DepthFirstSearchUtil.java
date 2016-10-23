@@ -2,6 +2,7 @@ package com.github.dtyshchenko.algs4fun.geeksforgeeks;
 
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -23,18 +24,18 @@ import java.util.concurrent.LinkedBlockingDeque;
  * This can be proven as an induction on the path length of u→vu→v by observing that DFS indeed visits all nodes which have a direct edge from the first node and hence establishing the base case i.e. for path length = 11.
  * </p>
  *
- * Created by denis on 10/22/16.
+ * @author by denis on 10/22/16.
  */
 public class DepthFirstSearchUtil {
     //internally graph is represented as adjacency matrix
-    private final int[][] graph;
+    private final List<Set<Integer>> graph;
 
     /**
      *
      * @param graph - adjacency matrix to represent a graph
      *
      */
-    public DepthFirstSearchUtil(int[][] graph) {
+    public DepthFirstSearchUtil(List<Set<Integer>> graph) {
         this.graph = graph;
     }
 
@@ -43,35 +44,23 @@ public class DepthFirstSearchUtil {
      */
     public Set<Integer> regionByNode(int node) {
         //to track visited nodes during graph traversal
-        return regionByNode(node, new boolean[graph.length]);
+        return regionByNode(node, new boolean[graph.size()]);
     }
 
     public Set<Integer> regionByNodeIterative(int node) {
         Set<Integer> result = new HashSet<>();
         Deque<Integer> stack = new LinkedBlockingDeque<>();
-        boolean[] visited = new boolean[graph.length];
+        boolean[] visited = new boolean[graph.size()];
         stack.push(node);
         while(!stack.isEmpty()) {
             Integer currentNode = stack.pop();
             visited[currentNode] = true;
             result.add(currentNode);
             //iterate through adjacent nodes
-            for (Integer adjNode: graph[currentNode]) {
-                if (!visited[adjNode]) {
-                    stack.push(adjNode);
-                }
-            }
+            graph.get(currentNode).stream()
+                    .filter(adjNode -> !visited[adjNode]).forEach(stack::push);
         }
         return result;
-    }
-
-    public int nodesInRegionFormedByNodeIterative(int node) {
-        return regionByNodeIterative(node).size();
-    }
-
-    public int nodesInRegionFormedByNode(int node) {
-        //to track visited nodes during graph traversal
-        return nodesInRegionFormedByNode(node, new boolean[graph.length]);
     }
 
     private Set<Integer> regionByNode(int node, boolean[] visited) {
@@ -79,10 +68,39 @@ public class DepthFirstSearchUtil {
         visited[node] = true;
         result.add(node);
         // for all adjacent nodes to the current node
-        for (int adjNode : graph[node]) {
+        for (int adjNode : graph.get(node)) {
             if (!visited[adjNode]) {
-               result.addAll(regionByNode(adjNode, visited));
+                result.addAll(regionByNode(adjNode, visited));
             }
+        }
+        return result;
+    }
+
+    public int nodesInRegionFormedByNodeIterative(int node) {
+        return nodesInRegionFormedByNodeIterative(node, this.graph, new boolean[this.graph.size()]);
+    }
+
+    public int nodesInRegionFormedByNode(int node) {
+        //to track visited nodes during graph traversal
+        return nodesInRegionFormedByNode(node, new boolean[graph.size()]);
+    }
+
+    public static Integer nodesInRegionFormedByNodeIterative(int node, List<Set<Integer>> graph, boolean[] visited) {
+        Integer result = 0;
+        Deque<Integer> stack = new LinkedBlockingDeque<>();
+        stack.push(node);
+        while(!stack.isEmpty()) {
+            Integer currentNode = stack.pop();
+            if (visited[currentNode]) {
+                //it is possible that one node was put several times on a stack
+                //ignore node that was processed previously
+                continue;
+            }
+            result++;
+            visited[currentNode] = true;
+            //iterate through adjacent nodes
+            graph.get(currentNode).stream()
+                    .filter(adjNode -> !visited[adjNode]).forEach(stack::push);
         }
         return result;
     }
@@ -94,7 +112,7 @@ public class DepthFirstSearchUtil {
         visited[node] = true;
         int result = 1; // one stands for current node, included in result
         // for all adjacent nodes to the current node
-        for (int adjNode : graph[node]) {
+        for (int adjNode : graph.get(node)) {
             if (!visited[adjNode]) {
                 result += nodesInRegionFormedByNode(adjNode, visited);
             }

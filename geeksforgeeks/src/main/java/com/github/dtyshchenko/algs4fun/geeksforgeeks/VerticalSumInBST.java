@@ -21,7 +21,7 @@ import java.util.Map;
  *  Vertical-Line-4: has only one node 3 => vertical sum is 3
  *  Vertical-Line-5: has only one node 7 => vertical sum is 7
  *
- *  Created by denis on 10/20/16.
+ *  @author denis on 10/20/16.
  */
 public class VerticalSumInBST {
 

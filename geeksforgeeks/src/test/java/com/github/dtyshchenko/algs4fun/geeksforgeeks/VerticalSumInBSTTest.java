@@ -62,5 +62,6 @@ public class VerticalSumInBSTTest {
     @Test
     public void verifySumOnBSTWithNodesThatHasLessThanTwoChilds() {
         Map<Integer, Integer> actualSums = verticalSumOfBST(new int[]{0, 1, 2, 3, 4, 5});
-        Assert.assertEquals(expectedSums, actualSums);    }
+        Assert.assertEquals(expectedSums, actualSums);
+    }
 }
