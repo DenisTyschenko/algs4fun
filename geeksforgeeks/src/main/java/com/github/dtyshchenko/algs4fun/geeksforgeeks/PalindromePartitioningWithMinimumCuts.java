@@ -1,8 +1,6 @@
 package com.github.dtyshchenko.algs4fun.geeksforgeeks;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
@@ -20,7 +18,30 @@ import static java.util.stream.Collectors.toList;
  *
  * @author denis on 10/23/16.
  */
-public class PalindromePartitioningWithFewestCuts {
+public class PalindromePartitioningWithMinimumCuts {
+
+    public static List<String> palindromePartitionRecursive(String word) {
+        if (word.isEmpty()) {
+            return new ArrayList<>();
+        } else if (isPalindrome(word)) {
+            List<String> oneCharSolution = new ArrayList<>();
+            oneCharSolution.add(word);
+            return oneCharSolution;
+        } else {
+            TreeMap<Integer, List<String>> solutionsBySize = new TreeMap<>();
+            for (int i = word.length() - 1; i > 0; i--) {
+                //add palindromes found to the left of partition
+                List<String> solutions = palindromePartitionRecursive(word.substring(0, i));
+                //add palindromes found to the rigth of partition
+                solutions.addAll(palindromePartitionRecursive(word.substring(i)));
+                //kep track of each solution list to retrieve
+                //the one with minimum size, thus minimum cuts required
+                solutionsBySize.put(solutions.size(), solutions);
+            }
+
+            return solutionsBySize.get(solutionsBySize.firstKey());
+        }
+    }
 
     public static List<String> palindromePartition(String word) {
         if (!word.isEmpty() && isPalindrome(word)) {
@@ -77,7 +98,7 @@ public class PalindromePartitioningWithFewestCuts {
                 }
                 String prefix = word.substring(0, prefixEndIndex);
                 solution.push(prefix);
-                if (solution.stream().allMatch(PalindromePartitioningWithFewestCuts::isPalindrome)) {
+                if (solution.stream().allMatch(PalindromePartitioningWithMinimumCuts::isPalindrome)) {
                     return solution;
                 }
                 //**********************ITERATION ACTION**************************************

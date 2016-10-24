@@ -25,6 +25,7 @@ public class PalindromPartitioningTest {
                 {"ababbbabbababa", asList("a", "bab", "bbabb", "ababa")},
                 {"aba", singletonList("aba")},
                 {"abcd", asList("a", "b", "c", "d")},
+                {"abb", asList("a", "bb")},
                 {"", emptyList()},
         });
     }
@@ -32,7 +33,13 @@ public class PalindromPartitioningTest {
     @Test
     @Parameters(method = "data")
     public void verifyPartitioningWithMinimumCuts (String word, List<String> exptected) {
-        List<String> actual = PalindromePartitioningWithFewestCuts.palindromePartition(word);
+        List<String> actual = PalindromePartitioningWithMinimumCuts.palindromePartition(word);
+        Assert.assertEquals(exptected, actual);
+    }
+    @Test
+    @Parameters(method = "data")
+    public void verifyPartitioningWithMinimumCutsRecursive (String word, List<String> exptected) {
+        List<String> actual = PalindromePartitioningWithMinimumCuts.palindromePartitionRecursive(word);
         Assert.assertEquals(exptected, actual);
     }
 }
