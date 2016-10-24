@@ -24,9 +24,9 @@ public class PalindromePartitioningWithMinimumCuts {
         if (word.isEmpty()) {
             return new ArrayList<>();
         } else if (isPalindrome(word)) {
-            List<String> oneCharSolution = new ArrayList<>();
-            oneCharSolution.add(word);
-            return oneCharSolution;
+            List<String> palindrome = new ArrayList<>();
+            palindrome.add(word);
+            return palindrome;
         } else {
             TreeMap<Integer, List<String>> solutionsBySize = new TreeMap<>();
             for (int i = word.length() - 1; i > 0; i--) {
