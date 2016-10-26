@@ -1,4 +1,4 @@
-package com.github.dtyshchenko.basics.sorting;
+package com.github.dtyshchenko.algs4fun.basics.sorting;
 
 /**
  *

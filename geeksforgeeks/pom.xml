@@ -25,6 +25,11 @@
             <groupId>pl.pragmatists</groupId>
             <artifactId>JUnitParams</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.dtyshchenko</groupId>
+            <artifactId>algs4fun</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -16,5 +16,10 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.dtyshchenko</groupId>
+            <artifactId>algs4fun</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

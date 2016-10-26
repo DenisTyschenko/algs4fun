@@ -1,6 +1,6 @@
 package com.github.dtyshchenko.algs4fun.firecodeio.level3;
 
-import com.github.dtyshchenko.algs4fun.firecodeio.level3.treenode.TreeNode;
+import com.github.dtyshchenko.algs4fun.common.treenode.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

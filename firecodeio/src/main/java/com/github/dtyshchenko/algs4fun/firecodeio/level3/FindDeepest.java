@@ -1,6 +1,6 @@
 package com.github.dtyshchenko.algs4fun.firecodeio.level3;
 
-import com.github.dtyshchenko.algs4fun.firecodeio.level3.treenode.TreeNode;
+import com.github.dtyshchenko.algs4fun.common.treenode.TreeNode;
 
 import java.util.ArrayDeque;
 import java.util.Comparator;
@@ -54,7 +54,7 @@ public class FindDeepest {
         if(root == null) return null;
         TreeNode curr = null;
         Deque<TreeNode> q =new ArrayDeque<>();
-        q.add(root);
+        q.push(root);
         while(!q.isEmpty()) {
             curr = q.pop();
             if(curr.right != null) {
@@ -66,6 +66,7 @@ public class FindDeepest {
         }
         return curr;
     }
+
     public static TreeNode findDeepestIterative(TreeNode root) {
         if (root == null) return null;
         TreeNode currentNode = root;

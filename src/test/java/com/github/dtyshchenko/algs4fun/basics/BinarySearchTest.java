@@ -1,4 +1,4 @@
-package com.github.dtyshchenko.basics;
+package com.github.dtyshchenko.algs4fun.basics;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
