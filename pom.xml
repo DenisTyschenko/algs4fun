@@ -23,12 +23,11 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--Using for short Collection builder notation while creating test data-->
+            <!-- Primarily using for short Collection builder notation while creating test data-->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
