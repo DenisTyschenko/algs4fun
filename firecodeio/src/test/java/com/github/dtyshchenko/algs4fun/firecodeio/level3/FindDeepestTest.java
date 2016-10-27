@@ -24,7 +24,7 @@ public class FindDeepestTest {
         return Arrays.asList(new Object[][] {
                 {new TreeNode(1), 1},
                 {new TreeNode(new TreeNode(2), 1, new TreeNode(3)), 3},
-                {new TreeNode(new TreeNode(new TreeNode(4), 2, new TreeNode(5)), 1, new TreeNode(3))}
+                {new TreeNode(new TreeNode(new TreeNode(4), 2, new TreeNode(5)), 1, new TreeNode(3)), 5}
         });
     }
 

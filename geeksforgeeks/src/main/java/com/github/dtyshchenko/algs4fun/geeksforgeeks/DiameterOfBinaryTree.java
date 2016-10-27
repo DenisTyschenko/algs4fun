@@ -14,16 +14,16 @@ import com.github.dtyshchenko.algs4fun.common.treenode.TreeNode;
 public class DiameterOfBinaryTree {
 
     public static int diameter(TreeNode root) {
-        return findLargestDiameter(root).d;
+        return findDiameter(root).d;
     }
 
 
-    private static Tuple findLargestDiameter(TreeNode node) {
+    private static Tuple findDiameter(TreeNode node) {
         if (node == null) {
             return new Tuple(0, 0);
         } else {
-            Tuple leftRes = findLargestDiameter(node.left);
-            Tuple rightRes = findLargestDiameter(node.right);
+            Tuple leftRes = findDiameter(node.left);
+            Tuple rightRes = findDiameter(node.right);
 
             int dnode = leftRes.h + rightRes.h + 1;
             dnode = max(dnode, max(leftRes.d, rightRes.d));
