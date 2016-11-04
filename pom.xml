@@ -12,6 +12,7 @@
     <modules>
         <module>firecodeio</module>
         <module>geeksforgeeks</module>
+        <module>hackerrank</module>
     </modules>
 
     <properties>
