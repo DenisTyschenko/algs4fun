@@ -25,7 +25,11 @@ public class CheckBSTUtilTest {
                 {node(node(1), 1, node(3)), false},
                 {node(node(2, node(3)), 4, node(node(node(5), 6, node(7)), 8)), true},
                 {node(node(2, node(3)), 4, node(node(node(9), 6, node(7)), 8)), false},
-                {node(node(2, node(1)), 4, node(node(node(5), 6, node(7)), 8)), false}
+                {node(node(2, node(1)), 4, node(node(node(5), 6, node(7)), 8)), false},
+                {node(node(2, node(2)), 4, node(node(node(5), 6, node(7)), 8)), false},
+
+                {node(node(node(1), 2, node(3)), 4, node(node(node(5), 6, node(7)), 8, node(9))), true},
+                {node(node(node(1), 2), 4, node(node(node(node(3),5), 6, node(7)), 8, node(9))), false},
         };
     }
 
