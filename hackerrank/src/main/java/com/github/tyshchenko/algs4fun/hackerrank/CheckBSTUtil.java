@@ -2,65 +2,38 @@ package com.github.tyshchenko.algs4fun.hackerrank;
 
 import com.github.dtyshchenko.algs4fun.common.treenode.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static java.util.Collections.singletonList;
-
 /**
+ *
+ * <a href="https://www.hackerrank.com/challenges/ctci-is-binary-search-tree">
+ *     Trees: Is This a Binary Search Tree?</a>
+ *
+ *     For the purposes of this challenge, we define a binary search tree to be a binary tree with the following ordering properties:
+ *     <ul>
+ *         <li>The {@code data} value of every node in a node's left subtree is less than the data value of that node.</li>
+ *         <li>The {@code data} value of every node in a node's right subtree is greater than the data value of that node.</li>
+ *     </ul>
+ *     Given the root node of a binary tree, can you determine if it's also a binary search tree?
+ *     Complete the function in your editor below, which has {@code 1} parameter: a pointer to the root of a binary tree. It must return a boolean denoting whether or not the binary tree is a binary search tree. You may have to write one or more helper functions to complete this challenge.
+ *     Note: A binary tree is not a binary search if there are duplicate values.
+
+
  * @author denis on 11/4/16.
  */
 public class CheckBSTUtil {
 
     public static boolean checkBST(TreeNode root) {
-        //from the beginning assuming that tree is a BST
-        BSTStatus bstStatus = new BSTStatus();
-        traverseAndCheck(root, bstStatus);
-        return bstStatus.isBST;
+        return checkBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    /**
-     * @param bstStatus - used as a mutable wrapper around immutable Boolean. Serves as indicator to detect when tree is not a BST.
-     *              Another approach is to use both int and boolean in return type, and properly analyze return type after each recursion return.
-     *              Will complicate implementation slightly.
-     */
-    public static List<Integer> traverseAndCheck(TreeNode node, BSTStatus bstStatus) {
-        if (node.left == null && node.right == null) {
-            return singletonList(node.data);
-        } else {
-            List<Integer> currentNodeData = new ArrayList<>();
-            if (node.left != null) {
-                List<Integer> leftSubtreeData = traverseAndCheck(node.left, bstStatus);
-                Integer leftSubtreeRightMostNodeData = leftSubtreeData.get(leftSubtreeData.size() - 1);
-                Integer leftSubtreeLeftMostNodeData = leftSubtreeData.get(0);
-                currentNodeData.add(leftSubtreeLeftMostNodeData);
-                if (node.data <= leftSubtreeRightMostNodeData) {
-                    bstStatus.notBST();
-                }
-            }
-            // adding current node for the cases when current node has one sibling either from left or right side
-            currentNodeData.add(node.data);
-
-            if (node.right != null) {
-                List<Integer> rightSubtreeData = traverseAndCheck(node.right, bstStatus);
-                Integer rightSubtreeLeftMostNodeData = rightSubtreeData.get(0);
-                Integer rightSubtreeRightMostNodeData = rightSubtreeData.get(rightSubtreeData.size() - 1);
-                currentNodeData.add(rightSubtreeRightMostNodeData);
-                if (node.data >= rightSubtreeLeftMostNodeData) {
-                    //compare to the right most element
-                    bstStatus.notBST();
-                }
-            }
-            return currentNodeData;
+    private static boolean checkBST(TreeNode node, int leftConstraint, int rightConstraint) {
+        if (node == null) {
+            return true;
         }
-    }
-
-    private static class BSTStatus {
-        private boolean isBST = true;
-
-        public void notBST() {
-            isBST = false;
+        if (node.data >= rightConstraint || node.data <= leftConstraint) {
+            return false;
         }
+        return checkBST(node.left, leftConstraint, node.data) &&
+                checkBST(node.right, node.data, rightConstraint);
     }
+
 }
