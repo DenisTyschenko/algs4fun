@@ -19,6 +19,7 @@ Repository to store solutions while preparing myself for coding interview
     * https://www.hackerrank.com/challenges/connected-cell-in-a-grid/topics/depth-first-search
     * http://opendatastructures.org/ods-java/12_2_AdjacencyLists_Graph_a.html
   * https://www.hackerrank.com/challenges/ctci-is-binary-search-tree
+  * https://www.hackerrank.com/challenges/ctci-contacts
     
 ### Firecode.io
 https://www.firecode.io/
