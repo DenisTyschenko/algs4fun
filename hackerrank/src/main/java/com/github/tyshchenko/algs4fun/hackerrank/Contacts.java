@@ -17,11 +17,11 @@ import java.util.Map;
  */
 public class Contacts {
 
-    private final TryNode root = new TryNode();
+    private final TrieNode root = new TrieNode();
 
     public void add(String name) {
         char[] chars = name.toCharArray();
-        TryNode node = root;
+        TrieNode node = root;
 
         for (char ch : chars) {
             node = node.has(ch) ? node.getNextBy(ch) : node.add(ch);
@@ -44,7 +44,7 @@ public class Contacts {
      */
     public int find(String partial) {
         char[] chars = partial.toCharArray();
-        TryNode node = root;
+        TrieNode node = root;
         for (char ch : chars) {
             if (node.has(ch)) {
                 node = node.getNextBy(ch);
@@ -55,8 +55,8 @@ public class Contacts {
         return node.getNumOfCompletedSiblings();
     }
 
-    private class TryNode {
-        private final Map<Character, TryNode> siblings = new HashMap<>();
+    private class TrieNode {
+        private final Map<Character, TrieNode> siblings = new HashMap<>();
         private int numOfCompletedSiblings;
         private boolean completed;
 
@@ -76,8 +76,8 @@ public class Contacts {
             return numOfCompletedSiblings;
         }
 
-        public TryNode add(Character ch) {
-            TryNode node = new TryNode();
+        public TrieNode add(Character ch) {
+            TrieNode node = new TrieNode();
             siblings.put(ch, node);
             return node;
         }
@@ -86,7 +86,7 @@ public class Contacts {
             return siblings.containsKey(ch);
         }
 
-        public TryNode getNextBy(Character ch) {
+        public TrieNode getNextBy(Character ch) {
             return siblings.get(ch);
         }
 
