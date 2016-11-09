@@ -1,4 +1,4 @@
-package com.github.dtyshchenko.algs4fun.basics;
+package com.github.dtyshchenko.algs4fun.basics.searching;
 
 /**
  * Searches on already sorted array in O(LogN)

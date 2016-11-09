@@ -11,9 +11,6 @@ public class MergeSort {
     /**
      * O(n) auxiliary space or O(2n) space complexity
      * Bottom up merge sort, without recursion.
-     *
-     * @param els
-     * @return
      */
     public static int[] sort(int[] els) {
         int N = els.length;

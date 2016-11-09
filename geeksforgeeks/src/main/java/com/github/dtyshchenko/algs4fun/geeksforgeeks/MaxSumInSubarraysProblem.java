@@ -27,11 +27,6 @@ public class MaxSumInSubarraysProblem {
         return maxSum;
     }
 
-    public static void main() {
-
-    }
-
-
     public static int findMaxSumInContiguousSubarrays(int[] els, int k) {
         //calculate the sum of first window
         int wsum = 0;

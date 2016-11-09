@@ -1,5 +1,6 @@
 package com.github.dtyshchenko.algs4fun.basics;
 
+import com.github.dtyshchenko.algs4fun.basics.searching.BinarySearch;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
