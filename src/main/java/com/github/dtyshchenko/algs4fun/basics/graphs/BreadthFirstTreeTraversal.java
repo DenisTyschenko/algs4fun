@@ -32,7 +32,7 @@ import java.util.Queue;
  */
 public class BreadthFirstTreeTraversal {
 
-    public static List<TreeNode> nodesOnLevel(int level, TreeNode root) {
+    public static List<TreeNode> nodesOnLevel(TreeNode root, int level) {
         LinkedList<TreeNode> levelNodes = new LinkedList<>();
         trackNodeOnLevel(levelNodes, root);
         int currentLevel = 1;
