@@ -1,4 +1,4 @@
-package com.github.dtyshchenko.algs4fun;
+package com.github.dtyshchenko.algs4fun.math;
 
 import java.util.HashSet;
 import java.util.Set;

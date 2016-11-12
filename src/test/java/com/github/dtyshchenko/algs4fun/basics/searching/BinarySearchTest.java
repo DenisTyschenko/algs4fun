@@ -1,6 +1,5 @@
-package com.github.dtyshchenko.algs4fun.basics;
+package com.github.dtyshchenko.algs4fun.basics.searching;
 
-import com.github.dtyshchenko.algs4fun.basics.searching.BinarySearch;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Assert;
@@ -16,16 +15,16 @@ import static org.hamcrest.CoreMatchers.is;
 public class BinarySearchTest {
 
     public static Object[][] data() {
-        return new Object[][] {
-                {new int[] {1,2}, 1, 0},
-                {new int[] {1,2}, 2, 1},
-                {new int[] {1,2}, 0, -1},
-                {new int[] {2,2}, 2, 0},
-                {new int[] {-2,-2,1}, 1, 2},
-                {new int[] {-2,-2,-1,0,1}, 0, 3},
+        return new Object[][]{
+                {new int[]{1, 2}, 1, 0},
+                {new int[]{1, 2}, 2, 1},
+                {new int[]{1, 2}, 0, -1},
+                {new int[]{2, 2}, 2, 0},
+                {new int[]{-2, -2, 1}, 1, 2},
+                {new int[]{-2, -2, -1, 0, 1}, 0, 3},
 
-                {new int[] {-2,-2,-1,0,1}, 7, -1},
-                {new int[] {2,2}, 3, -1},
+                {new int[]{-2, -2, -1, 0, 1}, 7, -1},
+                {new int[]{2, 2}, 3, -1},
         };
     }
 
