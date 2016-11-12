@@ -1,5 +1,6 @@
-package com.github.dtyshchenko.algs4fun.geeksforgeeks;
+package com.github.dtyshchenko.algs4fun.geeksforgeeks.graphs;
 
+import com.github.dtyshchenko.algs4fun.geeksforgeeks.graphs.DepthFirstSearchUtil;
 import com.google.common.collect.ImmutableSet;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;

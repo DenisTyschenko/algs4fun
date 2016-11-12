@@ -1,4 +1,4 @@
-package com.github.dtyshchenko.algs4fun.geeksforgeeks;
+package com.github.dtyshchenko.algs4fun.geeksforgeeks.graphs;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.dtyshchenko.algs4fun.geeksforgeeks.NumberOfCellsInLargestRegion.translateIntoAdjacencyMatrix;
+import static com.github.dtyshchenko.algs4fun.geeksforgeeks.graphs.NumberOfCellsInLargestRegion.translateIntoAdjacencyMatrix;
 import static com.google.common.collect.ImmutableSet.of;
 import static java.util.Arrays.asList;
 import static java.util.Collections.*;

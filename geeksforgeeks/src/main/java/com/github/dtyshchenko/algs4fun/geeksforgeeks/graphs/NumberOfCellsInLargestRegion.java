@@ -1,4 +1,4 @@
-package com.github.dtyshchenko.algs4fun.geeksforgeeks;
+package com.github.dtyshchenko.algs4fun.geeksforgeeks.graphs;
 
 import java.io.InputStream;
 import java.util.*;
