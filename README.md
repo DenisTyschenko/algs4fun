@@ -13,6 +13,8 @@ Repository to store solutions while preparing myself for coding interview
   * http://www.geeksforgeeks.org/diameter-of-a-binary-tree/
   * http://www.geeksforgeeks.org/find-k-closest-elements-given-value
   * http://www.geeksforgeeks.org/lowest-common-ancestor-binary-tree-set-1
+  * http://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array/
+  * http://www.geeksforgeeks.org/detect-cycle-in-a-graph/
   
 ### Hackerrank
   * https://www.hackerrank.com/challenges/connected-cell-in-a-grid
