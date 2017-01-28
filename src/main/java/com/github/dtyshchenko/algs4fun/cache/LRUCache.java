@@ -1,153 +1,111 @@
 package com.github.dtyshchenko.algs4fun.cache;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
+ * Implementation of LRU Cache based on {@link HashMap} for elements storage
+ * and custom doubly linked list for elements access tracking.
  *
  * @author denis on 11/15/16.
  */
 public class LRUCache<K, V> {
 
-    // just for our study 4K should be enough
-    private static int MAXIMUM_CAPACITY = 1 << 12;
-    private Entry head;
-    private Entry tail;
-    private Entry[] table;
-    private float loadFactor;
-    private int threshold;
+    private final int maxSize;
+    private final Map<K, Node<K, V>> storage;
+    private Node<K, V> mostRecentlyUsed;
+    private Node<K, V> leastRecentlyUsed;
 
-    public LRUCache(int capacity, float loadFactor) {
-        int m2cap = tableSizeFor(capacity);
-        @SuppressWarnings({"unchecked", "rawtype"})
-        Entry[] tab = (Entry[]) new Object[m2cap];
-        this.table = tab;
-        this.loadFactor = loadFactor;
-        this.threshold = (int) loadFactor * m2cap;
+    public LRUCache(int maxSize) {
+        if (maxSize <= 0) {
+            throw new IllegalArgumentException("Max number of elements in the cache " +
+                    "should be greater than zero");
+        }
+        this.maxSize = maxSize;
+        //by default hash map uses load factor 0,75
+        //to avoid unnecessary resizing of backing storage either set load factor to 1
+        //or double the number of buckets in backing storage which means we will
+        //not use 25 percent of backing storage however we are keeping load factor as 0,75
+        //i.e. higher chance for elements to be better distributed amongst buckets when reaching maxSize
+        storage = new HashMap<>(1 << maxSize);
     }
 
-    public void put(K key, V value) {
-        //TODO: add LRU eviction policy
-        int bi = hash(key) & (table.length - 1);
-        if (table[bi] == null) {
-            table[bi] = newEntry(key, value);
-        } else {
-            addIfNewEntry(key, value, bi);
+    public V put(K k, V v) {
+        if (maxSize <= storage.size()) {
+            storage.remove(leastRecentlyUsed.key);
+            removeFromLruList(leastRecentlyUsed);
         }
+        Node<K, V> current = new Node<>(k, v);
+
+        setAsMostRecentlyUsed(current);
+
+        Node<K, V> unreachable = storage.put(k, current);
+        if (unreachable == null) {
+            return null;
+        }
+        //remove node from linked list if there was already such key present in map
+        //backing map has overridden the key with new value, no need to store
+        //previous node in linked list, it will never be accessed
+        removeFromLruList(unreachable);
+        return unreachable.value;
     }
 
-    public V get(K key) {
-        int bi = hash(key) & (table.length - 1);
-        for (Entry entry = table[bi]; entry != null; entry = entry.next) {
-            if (keysMatch(entry, key)) {
-                removeFromLruList(entry);
-                addToTailOfLruList(entry);
-                return entry.value;
-            }
+    public V get(K k) {
+        Node<K, V> node = storage.get(k);
+        if (node == null) {
+            return null;
         }
-        return null;
+        //move node to the head of linked list as most recently use element
+        removeFromLruList(node);
+        setAsMostRecentlyUsed(node);
+        return node.value;
+    }
+
+    public boolean contains(K k) {
+        boolean isContained = storage.containsKey(k);
+        if (isContained) {
+            get(k);
+        }
+        return isContained;
+    }
+
+    private void setAsMostRecentlyUsed(Node<K, V> current) {
+        if (mostRecentlyUsed != null) {
+            mostRecentlyUsed.next = current;
+            current.prev = mostRecentlyUsed;
+        }
+        if (leastRecentlyUsed == null) {
+            leastRecentlyUsed = current;
+        }
+        mostRecentlyUsed = current;
     }
 
     /**
-     * Assumption is that tail is not null
+     * Removal from the LRU tracking linked list.
+     * Updates LRU head and tail pointers in case corner node is being removed
      */
-    private void addToTailOfLruList(Entry entry) {
-
-    }
-
-    private boolean keysMatch(Entry existing, K key) {
-        return existing.keyHash == key.hashCode() && (existing == key || existing.key.equals(key));
-    }
-
-    private void addIfNewEntry(K key, V value, int bi) {
-        Entry first = table[bi];
-        if (keysMatch(first, key)) {
-            table[bi] = newEntry(key, value);
-            removeFromLruList(first);
-        }
-        Entry lastEntry = first;
-        for (Entry entry = first.next; entry != null; entry = entry.next) {
-            if (keysMatch(entry, key)) {
-                removeFromLruList(entry);
-                lastEntry.next = entry.next;
-            }
-            lastEntry = entry;
-        }
-        lastEntry.next = newEntry(key, value);
-    }
-
-    private void removeFromLruList(Entry lruEntry) {
-        if (lruEntry == head) {
-            //lruEntry is a head
-            if (lruEntry == tail) {
-                //lruEntry is also a tail
-                tail = null;
-                head = null;
-            } else {
-                head = lruEntry.after;
-                head.before = null;
-            }
+    private void removeFromLruList(Node<K, V> node) {
+        if (node != leastRecentlyUsed) {
+            node.prev.next = node.next;
         } else {
-            //lruEntry is not a head in lru doubly linked list
-            if (lruEntry == tail) {
-                //lruEntry is a tail in lru doubly linked list
-                tail = lruEntry.before;
-                tail.after = null;
-            } else {
-                lruEntry.before.after = lruEntry.after;
-                lruEntry.after.before = lruEntry.before;
-            }
+            leastRecentlyUsed = node.next;
         }
-    }
-
-    private Entry newEntry(K key, V value) {
-        Entry newEntr = new Entry(key, value, tail);
-        if (tail != null) {
-            tail.after = newEntr;
-            newEntr.before = tail;
+        if (node != mostRecentlyUsed) {
+            node.next.prev = node.prev;
         } else {
-            //if tail is null head is null as well
-            head = newEntr;
+            mostRecentlyUsed = node.prev;
         }
-        tail = newEntr;
-        return newEntr;
     }
 
-    private int hash(K key) {
-        return (key.hashCode() >>> 16) ^ key.hashCode();
-    }
+    private class Node<K, V> {
+        private final K key;
+        private final V value;
+        private Node<K, V> next;
+        private Node<K, V> prev;
 
-    /**
-     * from HashMap implementation, shifts give 11..111, the last return adds +1 => have 100..000, power of two
-     * Returns a power of two size for the given target capacity.
-     */
-    private int tableSizeFor(int cap) {
-        int n = cap - 1;
-        n |= n >>> 1;
-        n |= n >>> 2;
-        n |= n >>> 4;
-        n |= n >>> 8;
-        n |= n >>> 16;
-        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
-    }
-
-    private class Entry {
-        Entry next;
-        Entry before;
-        Entry after;
-        K key;
-        V value;
-        int keyHash;
-
-        public Entry(K key, V value, Entry before) {
-            this(key, value, null, before, null);
-        }
-
-        public Entry(K key, V value, Entry next, Entry before, Entry after) {
-            this.next = next;
-            this.before = before;
-            this.after = after;
+        Node(K key, V value) {
             this.key = key;
             this.value = value;
-            this.keyHash = key.hashCode();
         }
     }
-
 }
