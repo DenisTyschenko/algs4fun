@@ -19,39 +19,43 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(JUnitParamsRunner.class)
 public class PostfixNotationTest {
 
-    public static Object[] data() {
-        return new Object[][]{
-                {"1", 1},
-                {"1 2 +", 3},
-                {"3 1 2 + +", 6},
-                {"2 3 + 1 +", 6},
-                {"2 3 * 1 +", 7},
-                {"3 1 - 3 * 1 +", 7},
-                {"4 2 -", 2},
-                {"4 2 /", 2},
-                {"2 2 3 + * 5 / 1 -", 1},
-        };
+    public static class DataProvider {
+        public static Object[][] provideData() {
+            return new Object[][] {
+                    {"1", 1},
+                    {"1 2 +", 3},
+                    {"3 1 2 + +", 6},
+                    {"2 3 + 1 +", 6},
+                    {"2 3 * 1 +", 7},
+                    {"3 1 - 3 * 1 +", 7},
+                    {"4 2 -", 2},
+                    {"4 2 /", 2},
+                    {"2 2 3 + * 5 / 1 -", 1},
+            };
+        }
+    }
+
+    public static class FailureDataProvider {
+        public static Object[][] provideFailureData() {
+            return new Object[][]{
+                    {""},
+                    {null},
+                    {"+"},
+                    {"1 +"},
+                    {"3 2 1 +"},
+                    {"3 + 1 +"},
+            };
+        }
     }
 
     @Test
-    @Parameters(method = "data")
+    @Parameters(source = DataProvider.class)
     public void verifyExpressionEvaluation(String expression, int expected) {
         Assert.assertThat(PostfixNotation.evaluate(expression), is(expected));
     }
 
-    public static Object[] failureData() {
-        return new Object[][]{
-                {""},
-                {null},
-                {"+"},
-                {"1 +"},
-                {"3 2 1 +"},
-                {"3 + 1 +"},
-        };
-    }
-
     @Test(expected = Exception.class)
-    @Parameters(method = "failureData")
+    @Parameters(source = FailureDataProvider.class)
     public void verifyExpressionEvaluationOnIncorrectDate(String expression) {
         PostfixNotation.evaluate(expression);
     }
