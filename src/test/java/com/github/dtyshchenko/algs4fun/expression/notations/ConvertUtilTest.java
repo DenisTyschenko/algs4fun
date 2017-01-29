@@ -16,21 +16,43 @@ public class ConvertUtilTest {
 
     public static Object[][] data() {
         return new Object[][] {
+                //without parenthesis
                 {"1", "1"},
                 {"1 + 2", "1 2 +"},
                 {"1 + 2 + 3", "1 2 + 3 +"},
                 {"1 + 2 * 3", "1 2 3 * +"},
                 {"1 * 2 + 3", "1 2 * 3 +"},
                 {"1 * 2 * 3", "1 2 * 3 *"},
+                {"1 + 2 + 3 * 4", "1 2 + 3 4 * +"},
                 {"1 + 2 * 3 * 4 + 5", "1 2 3 * 4 * + 5 +"},
                 {"1 + 2 * 3 / 4 + 5", "1 2 3 * 4 / + 5 +"},
+                //with parenthesis
+                {"( 1 + 2 ) + 3", "1 2 + 3 +"},
+                {"( 1 + 2 ) * 3", "1 2 + 3 *"},
+                {"( 1 * 2 ) + 3", "1 2 * 3 +"},
 
+                {"4 + ( 1 * 2 ) + 3", "4 1 2 * + 3 +"},
+                {"4 * ( 1 * 2 ) + 3", "4 1 2 * * 3 +"},
+
+                {"( 4 + ( 1 + 2 ) ) + 3", "4 1 2 + + 3 +"},
+                {"( 4 + ( 1 + 2 ) ) * 3", "4 1 2 + + 3 *"},
+                {"( 4 * ( 1 + 2 ) ) * 3", "4 1 2 + * 3 *"},
+                {"( 4 * ( 1 / 2 ) ) * 3", "4 1 2 / * 3 *"},
+
+                {"( 1 + ( 2 + ( 3 + 4 ) ) ) + 5", "1 2 3 4 + + + 5 +"},
+                {"( 1 + ( 2 + 3 + 4 ) ) + 5", "1 2 3 + 4 + + 5 +"},
+
+                {"1 + ( ( 2 + 3 ) + 4 ) + 5", "1 2 3 + 4 + + 5 +"},
+
+                {"( 1 + 2 ) * ( 3 + 4 ) / 5 ", "1 2 + 3 4 + * 5 /"},
+
+                {"1 + 2  * ( 3 + 4 * 5 )", "1 2 3 4 5 * + * +"}
         };
     }
 
     @Test
     @Parameters(method = "data")
-    public void verifyConvertionToPostfixNotation(String infix, String expected) {
+    public void verifyConversionToPostfixNotation(String infix, String expected) {
         Assert.assertThat(ConvertUtil.fromInfixToPostfix(infix), is(expected));
     }
 }

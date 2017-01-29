@@ -22,13 +22,24 @@ public class ConvertUtil {
         String[] tokens = infixExpression.trim().split("[ \t]+");
 
         Queue<String> result = new ArrayDeque<>(tokens.length);
+
+        //both operators and parenthesis
         Deque<String> operators = new LinkedList<>();
 
         for (String token : tokens) {
-            if (OP_PRIORITY.containsKey(token)) {
+            if ("(".equals(token)) {
+                 operators.push(token);
+            } else if (")".equals(token)) {
+                String operation;
+                //remove all operations in parenthesis and append to result
+                //as a last action remove "(" and do not append to result
+                while (!"(".equals(operation = operators.pop())) {
+                    result.offer(operation);
+                }
+            } else if (OP_PRIORITY.containsKey(token)) {
                 // operation
-                if (!operators.isEmpty()) {
-                    String prevOperation = operators.peek();
+                String prevOperation = operators.peek();
+                if (!operators.isEmpty() && !"(".equals(prevOperation)) {
                     if (OP_PRIORITY.get(prevOperation) > OP_PRIORITY.get(token)) {
                         // if incoming operation has less priority then pop entire stack to result
                         // EX: a + b * c + (here stack will is popped) d = a b c * + (stack is popped) d +
