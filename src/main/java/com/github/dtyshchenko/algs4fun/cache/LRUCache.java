@@ -85,15 +85,23 @@ public class LRUCache<K, V> {
      * Updates LRU head and tail pointers in case corner node is being removed
      */
     private void removeFromLruList(Node<K, V> node) {
+        if (leastRecentlyUsed == mostRecentlyUsed) {
+            leastRecentlyUsed = mostRecentlyUsed = null;
+            return;
+        }
         if (node != leastRecentlyUsed) {
             node.prev.next = node.next;
         } else {
             leastRecentlyUsed = node.next;
+            //forget link on node that is being removed
+            leastRecentlyUsed.prev = null;
         }
         if (node != mostRecentlyUsed) {
             node.next.prev = node.prev;
         } else {
             mostRecentlyUsed = node.prev;
+            //forget link on node that is being removed
+            mostRecentlyUsed.next = null;
         }
     }
 
