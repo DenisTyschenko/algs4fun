@@ -120,6 +120,8 @@ public class LFUCacheTest {
         cache.get("C");
 
         cache.put("E", "e"); // B should be evicted
+        cache.get("E"); // promote E to freq 2
+        cache.get("E"); // promote E to freq 3
         cache.put("F", "f"); // A should be evicted
 
         Assert.assertFalse(cache.contains("B"));

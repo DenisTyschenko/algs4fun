@@ -28,7 +28,11 @@ public class LFUCache<K, V> {
     public V put(K key, V value) {
         if (maxSize <= storage.size()) {
             //trigger eviction
+            //in case of eviction head will be always non null as maxSize can't be 0
             Node<K, V> lru = head.removeLeastRecentlyUsed();
+            //update head if frequency node were removed due to lru nodes absence
+            head = head.isEmpty() ? head.next : head;
+
             storage.remove(lru.key);
         }
         Node<K, V> node = new Node<>(key, value);
@@ -56,6 +60,8 @@ public class LFUCache<K, V> {
         }
 
         previousNode.removeFromCurrentFrequency();
+        //update head if frequency node were removed due to lru nodes absence
+        head = head.isEmpty() ? head.next : head;
 
         return previousNode.value;
     }
@@ -66,15 +72,15 @@ public class LFUCache<K, V> {
             return null;
         }
         node.promote();
+        //update head if frequency node were removed due to lru nodes absence
+        head = head.isEmpty() ? head.next : head;
+
         return node.value;
     }
 
+    //TODO: contains should also have impact on element frequency access
     public boolean contains(K key) {
         return storage.containsKey(key);
-    }
-
-    public V remove(K key) {
-        return null;
     }
 
     private class FreqNode<K, V> {
@@ -83,8 +89,8 @@ public class LFUCache<K, V> {
 
         final int freq;
 
-        FreqNode prev;
-        FreqNode next;
+        FreqNode<K, V> prev;
+        FreqNode<K, V> next;
 
         private FreqNode(int freq) {
             this.freq = freq;
@@ -101,6 +107,22 @@ public class LFUCache<K, V> {
             }
         }
 
+        boolean isEmpty() {
+            return mostRecentlyUsed == null;
+        }
+        /**
+         * Removes current freq node from doubly linked list
+         * Should be triggered if there is no more node (lru) items in list
+         */
+        void removeFromFrequencyList() {
+            if (prev != null) {
+                prev.next = next;
+            }
+            if (next != null) {
+                next.prev = prev;
+            }
+        }
+
         Node<K, V> removeLeastRecentlyUsed() {
             Node<K, V> tmp = leastRecentlyUsed;
             removeFromLruList(leastRecentlyUsed);
@@ -110,7 +132,9 @@ public class LFUCache<K, V> {
 
         void removeFromLruList(Node<K, V> node) {
             if (leastRecentlyUsed == mostRecentlyUsed) {
+                //only one element in list and it is gonna be removed
                 leastRecentlyUsed = mostRecentlyUsed = null;
+                removeFromFrequencyList();
                 return;
             }
             if (node != leastRecentlyUsed) {
@@ -144,6 +168,9 @@ public class LFUCache<K, V> {
 
         void removeFromCurrentFrequency() {
             freqNode.removeFromLruList(this);
+            //forget about previous siblings, new lru list, new life...
+            moreRecentlyUsed = null;
+            lessRecentlyUsed = null;
         }
 
         void promote() {
@@ -158,10 +185,15 @@ public class LFUCache<K, V> {
                     freqNode.next = tmp;
                 }
             } else {
-                freqNode.next = new FreqNode(nextFreq);
+                freqNode.next = new FreqNode<>(nextFreq);
                 freqNode.next.prev = freqNode;
             }
 
+            //Update pointer to frequency for current node
+            freqNode = freqNode.next;
+            //forget about previous siblings, new lru list, new life...
+            moreRecentlyUsed = null;
+            lessRecentlyUsed = null;
             freqNode.addAsMostRecentlyUsed(this);
         }
     }
