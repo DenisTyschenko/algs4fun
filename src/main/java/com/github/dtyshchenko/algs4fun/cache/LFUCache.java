@@ -4,11 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Original task is
+ * <a href="https://leetcode.com/problems/lfu-cache/">LFU Cache</a>
  *
- * https://leetcode.com/problems/lfu-cache/
+ * Implementation reflects java api of Map for put operation.
+ * Implementation idea taken from the following resources :
+ * <ul>
+ *     <li><a href="http://dhruvbird.com/lfu.pdf"/>http://dhruvbird.com/lfu.pdf</li>
+ *     <li><a href="http://www.laurentluce.com/posts/least-frequently-used-cache-eviction-scheme-with-complexity-o1-in-python/"/>
+ *     http://www.laurentluce.com/posts/least-frequently-used-cache-eviction-scheme-with-complexity-o1-in-python/</li>
+ * </ul>
  *
- * http://dhruvbird.com/lfu.pdf
- * http://www.laurentluce.com/posts/least-frequently-used-cache-eviction-scheme-with-complexity-o1-in-python/
+ * Implementation uses O(1) complexity for put and get operations.
  *
  * Created by denis on 1/30/17.
  */
@@ -83,20 +90,20 @@ public class LFUCache<K, V> {
         return storage.containsKey(key);
     }
 
-    private class FreqNode<K, V> {
-        Node<K, V> mostRecentlyUsed;
-        Node<K, V> leastRecentlyUsed;
+    private class FreqNode<KEY, VAL> {
+        Node<KEY, VAL> mostRecentlyUsed;
+        Node<KEY, VAL> leastRecentlyUsed;
 
         final int freq;
 
-        FreqNode<K, V> prev;
-        FreqNode<K, V> next;
+        FreqNode<KEY, VAL> prev;
+        FreqNode<KEY, VAL> next;
 
         private FreqNode(int freq) {
             this.freq = freq;
         }
 
-        void addAsMostRecentlyUsed(Node<K, V> node) {
+        void addAsMostRecentlyUsed(Node<KEY, VAL> node) {
             node.freqNode = this;
             if (leastRecentlyUsed == null) {
                 mostRecentlyUsed = leastRecentlyUsed = node;
@@ -123,14 +130,14 @@ public class LFUCache<K, V> {
             }
         }
 
-        Node<K, V> removeLeastRecentlyUsed() {
-            Node<K, V> tmp = leastRecentlyUsed;
+        Node<KEY, VAL> removeLeastRecentlyUsed() {
+            Node<KEY, VAL> tmp = leastRecentlyUsed;
             removeFromLruList(leastRecentlyUsed);
             //TODO: clear frequency list if there is no elements any more
             return tmp;
         }
 
-        void removeFromLruList(Node<K, V> node) {
+        void removeFromLruList(Node<KEY, VAL> node) {
             if (leastRecentlyUsed == mostRecentlyUsed) {
                 //only one element in list and it is gonna be removed
                 leastRecentlyUsed = mostRecentlyUsed = null;
@@ -154,14 +161,14 @@ public class LFUCache<K, V> {
         }
     }
 
-    private class Node<K, V> {
-        final K key;
-        final V value;
-        Node<K, V> moreRecentlyUsed;
-        Node<K, V> lessRecentlyUsed;
-        FreqNode<K, V> freqNode;
+    private class Node<KEY, VAL> {
+        final KEY key;
+        final VAL value;
+        Node<KEY, VAL> moreRecentlyUsed;
+        Node<KEY, VAL> lessRecentlyUsed;
+        FreqNode<KEY, VAL> freqNode;
 
-        public Node(K key, V value) {
+        public Node(KEY key, VAL value) {
             this.key = key;
             this.value = value;
         }
@@ -179,7 +186,7 @@ public class LFUCache<K, V> {
 
             if (freqNode.next != null) {
                 if (freqNode.next.freq != nextFreq) {
-                    FreqNode tmp = new FreqNode(nextFreq);
+                    FreqNode<KEY, VAL> tmp = new FreqNode<>(nextFreq);
                     freqNode.next.prev = tmp;
                     tmp.next = freqNode.next;
                     freqNode.next = tmp;
