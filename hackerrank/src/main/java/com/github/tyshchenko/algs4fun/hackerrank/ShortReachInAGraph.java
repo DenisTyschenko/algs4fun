@@ -1,9 +1,8 @@
 package com.github.tyshchenko.algs4fun.hackerrank;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+
+import static java.util.stream.Collectors.joining;
 
 /**
  * <a href="https://www.hackerrank.com/challenges/ctci-bfs-shortest-reach">
@@ -15,6 +14,57 @@ public class ShortReachInAGraph {
 
     private static final int NOT_VISITED = -1;
 
+    /**
+     * Controller method to accept input, convert input into multiple graphs,
+     * provide shortest path computation and create view of the result
+     *
+     * Such flow can be represented in terms of MVC pattern,
+     * however to be able to submit solution to hackerrank online verifier will use
+     * one single class decomposed on multiple utility methods.
+     */
+    public static String shortestPathsForMultiQueries(String input) {
+        Scanner sc = new Scanner(input);
+        int queriesNum = sc.nextInt();
+        StringBuilder output = new StringBuilder();
+        for (; queriesNum > 1; queriesNum--) {
+            output.append(shortestPathForQuery(sc))
+                    .append("\n");
+        }
+        return output.append(shortestPathForQuery(sc))
+                .toString();
+    }
+
+    private static String shortestPathForQuery(Scanner sc) {
+        List<List<Integer>> adjacency = readAdjacencyMatrix(sc);
+        int startNode = toNodeIndex(sc.nextInt());
+        int[] shortestPaths = shortestPathsFrom(startNode, adjacency);
+        return Arrays.stream(shortestPaths)
+                .mapToObj(String::valueOf)
+                .collect(joining(" "));
+    }
+
+    static List<List<Integer>> readAdjacencyMatrix(Scanner sc) {
+        int nodes = sc.nextInt();
+        List<List<Integer>> adjacency = new ArrayList<>(nodes);
+
+        for (int i = 0; i < nodes; i++) {
+            adjacency.add(new ArrayList<>());
+        }
+
+        int edges = sc.nextInt();
+        for (int i = 0; i < edges; i++) {
+            int nodeA = toNodeIndex(sc.nextInt());
+            int nodeB = toNodeIndex(sc.nextInt());
+            adjacency.get(nodeA).add(nodeB);
+            adjacency.get(nodeB).add(nodeA);
+        }
+
+        return adjacency;
+    }
+
+    private static int toNodeIndex(int node) {
+        return node - 1;
+    }
     /**
      * @param startNode - node to compute shortest path to other n - 1 nodes.
      *                  Path between two neighbours is 6 by task definition
