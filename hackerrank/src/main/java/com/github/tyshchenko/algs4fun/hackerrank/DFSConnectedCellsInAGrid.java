@@ -1,59 +1,90 @@
 package com.github.tyshchenko.algs4fun.hackerrank;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
+ * <a href="https://www.hackerrank.com/challenges/ctci-connected-cell-in-a-grid">
+ *     DFS: Connected Cell in a Grid</a>
+ *
+ * This solution uses original input matrix to perform DFS search without
+ * any transformations to intermediate adjacency matrix.
+ *
+ *
+ * In general analysis for DFS {@link #nodesInRegionOf(int, int)}:
+ * <ul>
+ *     <li>
+ *         Number of recursion spawn is O(V) where V is hte number of vertexes in graph
+ *     </li>
+ *     <li>
+ *         Number of times loop is executed is equal to the number of edges from the current node
+ *         and in total is O(E)
+ *     </li>
+ * </ul>
+ *
+ * The overall complexity is O(V + E)
+ *
  * Created by denis on 2/16/17.
  */
 public class DFSConnectedCellsInAGrid {
+    public static final int VISITED_NODE = -1;
+    public static final int SIGNIFICANT_NON_VISITED_NODE = 1;
 
-    public static int largestRegionInGrid(int[][] inputGrid) {
-        return -1;
+    private final int rows;
+    private final int cols;
+    private final int[][] inputGrid;
+
+    public DFSConnectedCellsInAGrid(int rows, int cols, int[][] inputGrid) {
+        this.rows = rows;
+        this.cols = cols;
+        this.inputGrid = inputGrid;
     }
 
-    public static List<Set<Integer>> toAdjacencyMatrix(int rows, int cols, int[][] inputGrid) {
-        int nodes = rows * cols;
-        List<Set<Integer>> adjacency = new ArrayList<>(nodes);
-        for (int i = 0; i < nodes; i++) {
-            adjacency.add(new HashSet<>());
-        }
-
-        for (int row = 0, currentNodeIndex = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++, currentNodeIndex++) {
-                if (inputGrid[row][col] == 1) {
-                    adjacency.get(currentNodeIndex).add(currentNodeIndex);
-                    connectToCurrent(row, col - 1, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row + 1, col - 1, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row + 1, col, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row + 1, col + 1, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row, col + 1, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row - 1, col + 1, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row - 1, col, currentNodeIndex, inputGrid, adjacency, rows, cols);
-                    connectToCurrent(row - 1, col - 1, currentNodeIndex, inputGrid, adjacency, rows, cols);
+    public int findLargestRegionInGrid() {
+        int maxNodesInRegion = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (inputGrid[i][j] == SIGNIFICANT_NON_VISITED_NODE) {
+                    maxNodesInRegion = Math.max(maxNodesInRegion, nodesInRegionOf(i, j));
                 }
             }
         }
-        return adjacency;
+        return maxNodesInRegion;
     }
 
-    private static void connectToCurrent(int row, int col, int currentNode,
-                                         int[][] inputGrid, List<Set<Integer>> adjacency,
-                                         int rows, int cols) {
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            return;
+    private boolean isValidNonVisitedNode(int row, int col) {
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            return inputGrid[row][col] == SIGNIFICANT_NON_VISITED_NODE;
         }
-        if (inputGrid[row][col] == 1) {
-            adjacency.get(currentNode).add(toNodeIndex(row, col, cols));
-        }
-    }
-    private static int toNodeIndex(int row, int col, int cols) {
-        return row * cols + col;
+        return false;
     }
 
-    public static int largestRegion(int[][] adjacency) {
-        return -1;
+    /**
+     * In general analysis for DFS:
+     * <ul>
+     *     <li>
+     *         Number of recursion spawn is O(V) where V is hte number of vertexes in graph
+     *     </li>
+     *     <li>
+     *         Number of times loop is executed is equal to the number of edges from the current node
+     *         and in total is O(E)
+     *     </li>
+     * </ul>
+     *
+     * The overall complexity is O(V + E)
+     */
+    private int nodesInRegionOf(int row, int col) {
+        //mark current as visited
+        inputGrid[row][col] = VISITED_NODE;
+        //include current node
+        int nodesInRegion = 1;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int x = row + i;
+                int y = col + j;
+                if (isValidNonVisitedNode(x, y)) {
+                    nodesInRegion += nodesInRegionOf(x, y);
+                }
+            }
+        }
+        return nodesInRegion;
     }
+
 }

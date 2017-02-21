@@ -19,7 +19,7 @@
         <junit.version>4.12</junit.version>
         <powermock.version>1.6.4</powermock.version>
         <guava.version>19.0</guava.version>
-        <junit.params.version>1.0.5</junit.params.version>
+        <junit.params.version>1.0.6</junit.params.version>
     </properties>
 
     <dependencyManagement>
