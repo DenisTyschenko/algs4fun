@@ -9,7 +9,7 @@ package com.github.tyshchenko.algs4fun.hackerrank;
  * As soon as we know that sequence contains only one distinct element for sure
  * we can xor all the elements one by one
  * Eventually xor will give that one distinct element.
- *
+ *Tr
  * If we would uncertain about the input containing distinct elements
  * we still can xor all the elements and if resulting xor is not equal
  * to zero, then that resulting xor is the distinct element
