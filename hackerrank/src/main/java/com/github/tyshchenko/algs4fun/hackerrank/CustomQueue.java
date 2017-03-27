@@ -10,7 +10,7 @@ import java.util.LinkedList;
  *
  * Created by denis on 3/21/17.
  */
-public class Queue<T> {
+public class CustomQueue<T> {
 
     private final Deque<T> enqueueStack = new LinkedList<>();
     private final Deque<T> dequeueStack = new LinkedList<>();

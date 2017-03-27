@@ -5,6 +5,8 @@ import java.util.*;
 import static java.util.stream.Collectors.joining;
 
 /**
+ * //FIXME: revisit, overcompicated solution
+ *
  * <a href="https://www.hackerrank.com/challenges/ctci-bfs-shortest-reach">
  * BFS: Shortest Reach in a Graph</a>
  * <p>

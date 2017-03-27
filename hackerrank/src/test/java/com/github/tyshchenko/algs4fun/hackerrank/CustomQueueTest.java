@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import static com.github.tyshchenko.algs4fun.hackerrank.QueueTest.Op.op;
+import static com.github.tyshchenko.algs4fun.hackerrank.CustomQueueTest.Op.op;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -16,11 +16,11 @@ import static org.hamcrest.CoreMatchers.is;
  * Created by denis on 3/21/17.
  */
 @RunWith(JUnitParamsRunner.class)
-public class QueueTest {
+public class CustomQueueTest {
 
     public static Object[][] data() {
         return new Object[][]{
-                {new Queue<Integer>(), asList(
+                {new CustomQueue<Integer>(), asList(
                         op(OpType.DEQUEUE, null),
                         op(OpType.PEEK, null),
                         op(OpType.ENQUEUE, 3),
@@ -31,7 +31,7 @@ public class QueueTest {
                         op(OpType.DEQUEUE, null)),
 
                 },
-                {new Queue<Integer>(), asList(
+                {new CustomQueue<Integer>(), asList(
                         op(OpType.ENQUEUE, 3),
                         op(OpType.ENQUEUE, 4),
                         op(OpType.ENQUEUE, 5),
@@ -43,7 +43,7 @@ public class QueueTest {
                         op(OpType.PEEK, 5),
                         op(OpType.DEQUEUE, 5))
                 },
-                {new Queue<Integer>(), asList(
+                {new CustomQueue<Integer>(), asList(
                         op(OpType.ENQUEUE, 3),
                         op(OpType.ENQUEUE, 4),
                         op(OpType.PEEK, 3),
@@ -56,7 +56,7 @@ public class QueueTest {
                         op(OpType.PEEK, 5),
                         op(OpType.DEQUEUE, 5))
                 },
-                {new Queue<String>(), asList(
+                {new CustomQueue<String>(), asList(
                         op(OpType.ENQUEUE, "3a"),
                         op(OpType.ENQUEUE, "4a"),
                         op(OpType.ENQUEUE, "5a"),
@@ -74,7 +74,7 @@ public class QueueTest {
 
     @Test
     @Parameters(method = "data")
-    public <T> void verifyQueueOperations(Queue<T> queue, List<Op<T>> operations) {
+    public <T> void verifyQueueOperations(CustomQueue<T> queue, List<Op<T>> operations) {
         for(Op<T> op: operations) {
             switch (op.type) {
                 case ENQUEUE: {
