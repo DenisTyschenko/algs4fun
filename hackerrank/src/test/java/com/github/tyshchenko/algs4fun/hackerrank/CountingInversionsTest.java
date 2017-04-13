@@ -16,18 +16,18 @@ public class CountingInversionsTest {
 
     public static Object[][] data() {
         return new Object[][]{
-                {new int[]{1}, 0},
-                {new int[]{2, 1}, 1},
-                {new int[]{4, 2, 1}, 3},
-                {new int[]{4, 1, 2}, 2},
-                {new int[]{4, 1, 2, 5}, 2},
-                {new int[]{7, 4, 1, 2, 5}, 6},
-                {new int[]{7, 4, 1, 2, 5}, 6},
-                {new int[]{3, 2, 1}, 3},
-                {new int[]{4, 3, 2, 1}, 6},
-                {new int[]{5, 4, 3, 2, 1}, 10},
-                {new int[]{6, 5, 4, 3, 2, 1}, 15},
-                {new int[]{7, 6, 5, 4, 3, 2, 1}, 21}
+                {new int[]{1}, 0L},
+                {new int[]{2, 1}, 1L},
+                {new int[]{4, 2, 1}, 3L},
+                {new int[]{4, 1, 2}, 2L},
+                {new int[]{4, 1, 2, 5}, 2L},
+                {new int[]{7, 4, 1, 2, 5}, 6L},
+                {new int[]{7, 4, 1, 2, 5}, 6L},
+                {new int[]{3, 2, 1}, 3L},
+                {new int[]{4, 3, 2, 1}, 6L},
+                {new int[]{5, 4, 3, 2, 1}, 10L},
+                {new int[]{6, 5, 4, 3, 2, 1}, 15L},
+                {new int[]{7, 6, 5, 4, 3, 2, 1}, 21L}
         };
     }
 
@@ -40,7 +40,7 @@ public class CountingInversionsTest {
 
     @Test
     @Parameters(method = "data")
-    public void verifyInversionCounting(int[] input, int expected) {
+    public void verifyInversionCounting(int[] input, long expected) {
         Assert.assertThat(CountingInversions.countInversions(input), is(expected));
     }
 
