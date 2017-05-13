@@ -13,13 +13,12 @@ public class TwoSum {
 
     public static int[] twoSum(int[] nums, int target) {
         //sort index array based on values from original array
-        Integer[] sortedIndexes = Arrays.stream(getIndexArray(nums))
-                .boxed()
-                .sorted(Comparator.comparing(index -> nums[index]))
-                .toArray(Integer[]::new);
+        Integer[] sortedIndexes = getIndexArray(nums);
+        Arrays.sort(sortedIndexes, Comparator.comparing(index -> nums[index]));
 
         for (int i = 0; i < sortedIndexes.length; i++) {
-            int found = Arrays.binarySearch(sortedIndexes, target - nums[sortedIndexes[i]],
+            int found = Arrays.binarySearch(sortedIndexes, i + 1, sortedIndexes.length,
+                    target - nums[sortedIndexes[i]],
                     (index, searchKey) -> Integer.compare(nums[index], searchKey));
             //binary search returns positive if finds the key
             //avoid match with current index (by task definition use element only once)
@@ -36,8 +35,8 @@ public class TwoSum {
     /**
      * Get index array alongside with original
      */
-    private static int[] getIndexArray(int[] nums) {
-        int[] indexes = new int[nums.length];
+    private static Integer[] getIndexArray(int[] nums) {
+        Integer[] indexes = new Integer[nums.length];
         for (int i = 0; i < nums.length; i++) {
             indexes[i] = i;
         }
