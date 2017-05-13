@@ -11,6 +11,18 @@ import static java.lang.Math.min;
  */
 public class TwoSum {
 
+    public static int[] twoSumQuadtratic(int[] nums, int target) {
+        for (int i = 0; i < nums.length; i++) {
+            int key = target - nums[i];
+            for (int j = i + 1; j < nums.length; j++) {
+                if (key == nums[j]) {
+                    return new int[] {i, j};
+                }
+            }
+        }
+        return new int[0];
+    }
+
     public static int[] twoSum(int[] nums, int target) {
         //sort index array based on values from original array
         Integer[] sortedIndexes = getIndexArray(nums);
