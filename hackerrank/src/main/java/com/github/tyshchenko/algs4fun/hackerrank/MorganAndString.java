@@ -51,11 +51,9 @@ public class MorganAndString {
     }
 
     public static Queue<String> minFirstToken(Queue<String> first, Queue<String> second) {
-        Iterator<String> fi = first.iterator();
-        Iterator<String> si = second.iterator();
-        String fToken = fi.next();
-        String sToken = si.next();
-        while (fToken.equals(sToken)) {
+        Iterator<String> fi = first.iterator(), si = second.iterator();
+        String fToken = fi.next(), sToken = si.next();
+        for (; fToken.equals(sToken); fToken = fi.next(), sToken = si.next()) {
             if (!fi.hasNext() && !si.hasNext()) {
                 // does not matter what sequence to return
                 return first;
@@ -66,8 +64,6 @@ public class MorganAndString {
                 // sequence with no more elements always treat as greater
                 return first;
             }
-            fToken = fi.next();
-            sToken = si.next();
         }
         return less(fToken, sToken) ? first : second;
     }
