@@ -26,8 +26,6 @@ public class MorganAndStringTest {
                                 "ZQ\n",
 
                         "ZBZQ\n"
-
-//                        "ZQZB"
                 },
                 {
 
@@ -45,21 +43,18 @@ public class MorganAndStringTest {
                                 "ABBC\n" +
                                 "ABBA\n",
                         "AABBABBC\n"
-//                        "AABBBBAC\n"
                 },
                 {
                         "1\n" +
                                 "CBAZ\n" +
                                 "CBAA\n",
                         "CBAACBAZ\n"
-//                        "CBACBAAZ\n"
                 },
                 {
                         "1\n" +
                                 "CBA\n" +
                                 "CBAA\n",
                         "CBAACBA\n"
-//                        "CBACBAA\n"
                 },
 
                 {
